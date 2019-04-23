@@ -1,13 +1,58 @@
 @import "theme_variables";
 
 @function text-contrast($n) {
-  $color-brightness: round((red($n) * 299) + (green($n) * 587) + (blue($n) * 114) / 1000);
-  $light-color: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + (blue(#ffffff) * 114) / 1000);
+  $color_brightness: round((red($n) * 299) + (green($n) * 587) + (blue($n) * 114) / 1000);
+  $light_color: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + (blue(#ffffff) * 114) / 1000);
 
-  @if abs($color-brightness) < ($light-color/2){
+  @if abs($color_brightness) < ($light_color/2){
     @return white;
   }
   @else {
     @return black;
+  }
+}
+
+$projects_landing_bg: darken($header_background, 20);
+$projects_landing_color: text-contrast(darken($projects_landing_bg, 20));
+
+.has-project-landing #main-outlet {
+  padding-top: 0;
+}
+
+.projects-landing {
+  background-color: $projects_landing_bg;
+  color: $projects_landing_color;
+  padding: 0;
+  padding-top: 5.8572em;
+  padding-bottom: .5rem;
+  display: none;
+
+  .has-project-landing & {
+    display: block;
+  }
+
+  &__heading {
+     margin: 1.5rem auto;
+     text-transform: uppercase;
+     font-weight: bold;
+  }
+
+  &__list {
+    margin: 0 auto;
+    list-style: none;
+
+    &__item {
+      margin-right: 1rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+
+      a {
+        background: $projects_landing_color;
+        color: text-contrast($projects_landing_color);
+        padding: .5rem 1rem;
+        display: inline-block;
+        font-weight: bold;
+      }
+    }
   }
 }

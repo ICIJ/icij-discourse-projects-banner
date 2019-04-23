@@ -1,7 +1,43 @@
 <script type="text/discourse-plugin" version="0.8">
+    const { h } = require('virtual-dom');
     const container = Discourse.__container__;
     const route = container.lookup("route:application");
+    const landingRoutes = ['discovery.latest', 'discovery.new', 'discovery.unread', 'discovery.top', 'discovery.categories']
+
+    function isRouteAllowed () {
+      return landingRoutes.indexOf(route.controller.currentRouteName) > -1
+    }
+
+    function icijGroupNames () {
+      return container.lookup("site:main").get('icij_group_names')
+    }
+
+    api.createWidget('project-landing-widget', {
+      tagName: 'div.projects-landing',
+      html(attrs, state) {
+        // Add a class to the body
+        $("body").toggleClass("has-project-landing", isRouteAllowed());
+        // Disabled this widget if the route is not allowed
+        if ( !isRouteAllowed() ) return
+        // Render the elements
+        return [
+          h('h2.projects-landing__heading.wrap', 'Your projects'),
+          h('ul.projects-landing__list.wrap', icijGroupNames().map(group_name => {
+            const href = `/groups/${group_name.toLowerCase()}/categories`
+            return h('li.projects-landing__list__item', h('a', { href }, group_name))
+          }))
+        ]
+      }
+    })
+
+    api.decorateWidget('project-landing-widget:after', helper => {
+      helper.widget.appEvents.on('page:changed', () => {
+          helper.widget.scheduleRerender()
+      })
+    })
 </script>
 
-<script type='text/x-handlebars' data-template-name='/connectors/bread-crumbs-right/projects-landing'>
+
+<script type="text/x-handlebars" data-template-name="/connectors/below-site-header/project-landing-widget">
+  {{mount-widget widget="project-landing-widget"}}
 </script>

@@ -32,7 +32,7 @@ $projects_landing_color: text-contrast(darken($projects_landing_bg, 20));
   }
 
   &__heading {
-     margin: 1.5rem auto;
+     margin: 0 auto 1.5rem;
      text-transform: uppercase;
      font-weight: bold;
   }
@@ -49,9 +49,29 @@ $projects_landing_color: text-contrast(darken($projects_landing_bg, 20));
       a {
         background: $projects_landing_color;
         color: text-contrast($projects_landing_color);
-        padding: .5rem 1rem;
+        padding: .3rem .8rem;
         display: inline-block;
+      }
+
+      &__notification {
+        color: #FA3E56;
+        float: right;
+        font-size: 0.4em;
+      }
+
+      &__name {
         font-weight: bold;
+        font-size: 1.1em;
+      }
+
+      &__users {
+        opacity: 0.6;
+        font-size: 0.9em;
+        display: block;
+
+        .fa {
+          margin-right: .25em;
+        }
       }
     }
   }

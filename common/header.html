@@ -1,5 +1,9 @@
 <script type="text/discourse-plugin" version="0.8">
+    const Group = require("discourse/models/group").default;
     const { h } = require('virtual-dom');
+    const { iconNode } = require("discourse-common/lib/icon-library");
+    const usersIcon = iconNode('users');
+    const circleIcon = iconNode('circle');
     const container = Discourse.__container__;
     const route = container.lookup("route:application");
     const landingRoutes = ['discovery.latest', 'discovery.new', 'discovery.unread', 'discovery.top', 'discovery.categories']
@@ -14,6 +18,17 @@
 
     api.createWidget('project-landing-widget', {
       tagName: 'div.projects-landing',
+      buildKey: () => `projects-landing-widget`,
+      defaultState() {
+        return { groups: [] };
+      },
+      loadGroups () {
+        return Group.findAll().then(groups => {
+          this.state.groups = _.filter(groups, group => {
+            return icijGroupNames().indexOf(group.name) > -1
+          })
+        })
+      },
       html(attrs, state) {
         // Add a class to the body
         $("body").toggleClass("has-project-landing", isRouteAllowed());
@@ -22,9 +37,16 @@
         // Render the elements
         return [
           h('h2.projects-landing__heading.wrap', 'Your projects'),
-          h('ul.projects-landing__list.wrap', icijGroupNames().map(group_name => {
-            const href = `/groups/${group_name.toLowerCase()}/categories`
-            return h('li.projects-landing__list__item', h('a', { href }, group_name))
+          h('ul.projects-landing__list.wrap', this.state.groups.map(group => {
+            const href = `/groups/${group.name.toLowerCase()}/categories`
+            return h('li.projects-landing__list__item', h('a', { href }, [
+              !group.has_messages ? h('span.projects-landing__list__item__notification', circleIcon) : h('span'),
+              h('span.projects-landing__list__item__name', group.name),
+              h('span.projects-landing__list__item__users', [
+                usersIcon,
+                group.user_count
+              ])
+            ]))
           }))
         ]
       }
@@ -32,7 +54,8 @@
 
     api.decorateWidget('project-landing-widget:after', helper => {
       helper.widget.appEvents.on('page:changed', () => {
-          helper.widget.scheduleRerender()
+        // Load the groups and render the widget
+        helper.widget.sendWidgetAction("loadGroups").then(helper.widget.scheduleRerender)
       })
     })
 </script>

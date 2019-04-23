@@ -40,7 +40,7 @@
           h('ul.projects-landing__list.wrap', this.state.groups.map(group => {
             const href = `/groups/${group.name.toLowerCase()}/categories`
             return h('li.projects-landing__list__item', h('a', { href }, [
-              !group.has_messages ? h('span.projects-landing__list__item__notification', circleIcon) : h('span'),
+              group.has_messages ? h('span.projects-landing__list__item__notification', circleIcon) : h('span'),
               h('span.projects-landing__list__item__name', group.name),
               h('span.projects-landing__list__item__users', [
                 usersIcon,

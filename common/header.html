@@ -21,7 +21,7 @@
       defaultState() {
         return { groups: [] };
       },
-      loadGroups: _.throttle(() {
+      loadGroups: _.throttle(function () {
         return Group.findAll().then(groups => {
           this.state.groups = _.filter(groups, group => {
             return icijGroupNames().indexOf(group.name) > -1

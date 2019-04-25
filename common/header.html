@@ -7,8 +7,8 @@
     const route = container.lookup("route:application");
     const landingRoutes = ['discovery.latest', 'discovery.new', 'discovery.unread', 'discovery.top', 'discovery.categories']
 
-    function isRouteAllowed () {
-      return landingRoutes.indexOf(route.controller.currentRouteName) > -1
+    function isRouteAllowed (currentUser) {
+      return currentUser && landingRoutes.indexOf(route.controller.currentRouteName) > -1
     }
 
     function icijGroupNames () {
@@ -21,18 +21,18 @@
       defaultState() {
         return { groups: [] };
       },
-      loadGroups () {
+      loadGroups: _.throttle(() {
         return Group.findAll().then(groups => {
           this.state.groups = _.filter(groups, group => {
             return icijGroupNames().indexOf(group.name) > -1
           })
         })
-      },
+      }, 30e3),
       html(attrs, state) {
         // Add a class to the body
-        $("body").toggleClass("has-project-landing", isRouteAllowed());
+        $("body").toggleClass("has-project-landing", isRouteAllowed(this.currentUser));
         // Disabled this widget if the route is not allowed
-        if ( !isRouteAllowed() ) return
+        if ( !isRouteAllowed(this.currentUser) ) return
         // Render the elements
         return [
           h('h2.projects-landing__heading.wrap', 'Your projects'),
@@ -53,7 +53,7 @@
     api.decorateWidget('project-landing-widget:after', helper => {
       helper.widget.appEvents.on('page:changed', () => {
         // Only if the user is logged in
-        if (helper.widget.currentUser) {
+        if (isRouteAllowed(helper.widget.currentUser)) {
           // Load the groups and render the widget
           helper.widget.sendWidgetAction("loadGroups").then(helper.widget.scheduleRerender)
         }

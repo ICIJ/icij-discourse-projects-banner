@@ -12,7 +12,8 @@
   }
 
   function icijGroupNames () {
-    return container.lookup("site:main").get('icij_group_names') || []
+    const ctrl = container.lookup("site:main")
+    return ctrl.get('icij_group_names') || ctrl.get('icij_project_names') || []
   }
 
   api.createWidget('project-landing-widget', {
@@ -21,13 +22,11 @@
     defaultState() {
       return { groups: [] };
     },
-    loadGroups: _.throttle(function () {
-      return Group.findAll().then(groups => {
-        this.state.groups = _.filter(groups, group => {
-          return icijGroupNames().indexOf(group.name) > -1
-        })
+    loadGroups() {
+      this.state.groups = icijGroupNames().map(name => {
+        return { name }
       })
-    }, 30e3),
+    },
     html(attrs, state) {
       // Disabled this widget if the route is not allowed
       if ( !isRouteAllowed(this.currentUser) ) return
@@ -61,9 +60,11 @@
       // Add a class to the body
       $("body").toggleClass("has-project-landing", isRouteAllowed());
       // Only if the user is logged in
-      if (isRouteAllowed(helper.widget.currentUser)) {
+      if (isRouteAllowed()) {
         // Load the groups and render the widget
-        helper.widget.sendWidgetAction("loadGroups").then(helper.widget.scheduleRerender)
+        helper.widget.sendWidgetAction("loadGroups")
+        helper.widget.scheduleRerender()
+        console.log(icijGroupNames())
       }
     })
   })

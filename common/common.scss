@@ -28,8 +28,13 @@ $projects_landing_color: text-contrast(darken($projects_landing_bg, 20));
   margin-bottom: 1rem;
   display: none;
 
+
   .has-project-landing & {
     display: block;
+
+    &:empty {
+      display: none;
+    }
   }
 
   &__heading {

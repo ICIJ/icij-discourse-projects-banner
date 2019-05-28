@@ -12,7 +12,7 @@
   }
 }
 
-$projects_landing_bg: white;
+$projects_landing_bg: mix(text-contrast($primary), $secondary);
 $projects_landing_color: text-contrast(darken($projects_landing_bg, 20));
 
 .has-project-landing #main-outlet {

@@ -11,6 +11,10 @@
     return !!currentUser && landingRoutes.indexOf(route.controller.currentRouteName) > -1
   }
 
+  function isStaff (currentUser = Discourse.User.current()) {
+    return !!currentUser && (currentUser.staff || icijGroupNames().indexOf('ICIJStaff') > -1)
+  }
+
   function icijGroupNames () {
     const ctrl = container.lookup("site:main")
     return ctrl.get('icij_group_names') || ctrl.get('icij_project_names') || []
@@ -29,7 +33,7 @@
     },
     html(attrs, state) {
       // Disabled this widget if the route is not allowed
-      if ( !isRouteAllowed(this.currentUser) ) return
+      if ( !isRouteAllowed() ) return
       // Render the elements
       return [
         h('div.wrap', [
@@ -37,7 +41,7 @@
             h('div', [
               h('h2', 'Welcome to the new iHub'),
               (settings.feedback_descriptions || '').split("|").map(desc => h('p', desc)),
-              (settings.feedback_url  !== '' ? h('a.projects-landing__jumbotron__feedback.btn.btn-default', { href : settings.feedback_url }, 'Send us your feedback') : null)
+              (settings.feedback_url !== '' && isStaff() ? h('a.projects-landing__jumbotron__feedback.btn.btn-default', { href : settings.feedback_url }, 'Send us your feedback') : null)
             ])
           ]),
           h('div.projects-landing__projects', [

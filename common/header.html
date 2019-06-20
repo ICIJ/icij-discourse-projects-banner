@@ -17,7 +17,8 @@
 
   function icijGroupNames () {
     const ctrl = container.lookup("site:main")
-    return ctrl.get('icij_group_names') || ctrl.get('icij_project_names') || []
+    const names = ctrl.get('icij_group_names') || ctrl.get('icij_project_names') || []
+    return names.sort()
   }
 
   api.createWidget('project-landing-widget', {

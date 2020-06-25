@@ -3,7 +3,5 @@
   "about_url": "",
   "component": true,
   "license_url": "",
-  "assets": {
-    "feedback": "assets/feedback-white.svg"
-  }
+  "assets": {}
 }

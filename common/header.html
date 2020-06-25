@@ -45,7 +45,7 @@
               (settings.feedback_url !== '' && isStaff() ? h('a.projects-landing__jumbotron__feedback.btn.btn-default', { href : settings.feedback_url }, 'Send us your feedback') : null)
             ])
           ]),
-          h('div.projects-landing__projects', [
+          this.state.groups.length > 1 ? h('div.projects-landing__projects', [
             h('h3.projects-landing__projects__heading', 'Your projects'),
             h('ul.projects-landing__projects__list', this.state.groups.map(group => {
               const href = `/groups/${group.name.toLowerCase()}/categories`
@@ -53,7 +53,7 @@
                 h('span.projects-landing__projects__item__name', group.name)
               ]))
             }))
-          ])
+          ]) : null
         ])
       ]
 

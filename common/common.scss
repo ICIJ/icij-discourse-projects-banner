@@ -29,6 +29,10 @@ $projects_landing_color: text-contrast($projects_landing_bg);
   display: none;
   border-bottom: 1px solid #e3e3e3;
 
+  @media (max-width: 1250px) {
+    background: repeating-linear-gradient(-55deg, #eef7f9, #eef7f9 2px, #fff 2px, #fff 4px);
+  }
+
   .has-project-landing & {
     display: block;
 
@@ -59,6 +63,10 @@ $projects_landing_color: text-contrast($projects_landing_bg);
       box-shadow: 0 0 0 1em rgba(#3b98ab, .2);
       margin: 1em;
       margin-right: 2em;
+
+      @media (max-width: 1250px) {
+        display: none;
+      }
     }
 
     &__feedback.btn {
@@ -74,6 +82,10 @@ $projects_landing_color: text-contrast($projects_landing_bg);
     position: relative;
     z-index: 10;
     padding: 1em 0 2em;
+
+    @media (max-width: 1250px) {
+      display: none;
+    }
 
     &:before {
       content:"";

@@ -40,7 +40,7 @@
         h('div.wrap', [
           h('div.projects-landing__jumbotron', [
             h('div', [
-              h('h2', 'Welcome to the new I-Hub'),
+              h('h2', 'Welcome to the Global iHub'),
               (settings.feedback_descriptions || '').split("|").map(desc => h('p', desc)),
               (settings.feedback_url !== '' && isStaff() ? h('a.projects-landing__jumbotron__feedback.btn.btn-default', { href : settings.feedback_url }, 'Send us your feedback') : null)
             ])

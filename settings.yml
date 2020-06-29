@@ -4,6 +4,6 @@ feedback_url:
 feedback_descriptions:
   type: list
   default:
-    This is the new Global I-Hub, a friendly forum built by ICIJ as a secure online collaboration tool.|
+    This is the Global iHub, a friendly forum built by ICIJ as a secure online collaboration tool.|
     ICIJ uses the platform to coordinate its reporting projects. Yet even those not involved in projects can use the I-Hub to communicate securely with other investigative journalists all around the world.|
-    This new tool is still under active development and we're happy to welcome your feedback.
+    This tool is still under active development and we're happy to welcome your feedback.

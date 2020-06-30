@@ -19,7 +19,6 @@
     const ctrl = container.lookup("site:main")
     let names = ctrl.get("available_icij_projects")
     names = names.map(obj => obj.name)
-    console.log(names);
     return names.sort()
   }
 

@@ -17,7 +17,8 @@
 
   function icijGroupNames () {
     const ctrl = container.lookup("site:main")
-    const names = ctrl.get('icij_group_names') || ctrl.get('icij_project_names') || []
+    let names = ctrl.get("available_icij_projects")
+    names = names.map(obj => obj.name)
     return names.sort()
   }
 

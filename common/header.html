@@ -5,7 +5,7 @@
   const usersIcon = iconNode('users');
   const container = Discourse.__container__;
   const route = container.lookup("route:application");
-  const landingRoutes = ['discovery.latest', 'discovery.new', 'discovery.unread', 'discovery.top', 'discovery.categories']
+  const landingRoutes = ['discovery.latest', 'discovery.new', 'discovery.unread', 'discovery.top', 'discovery.categories', 'discovery.posted']
 
   function isRouteAllowed (currentUser = Discourse.User.current()) {
     return !!currentUser && landingRoutes.indexOf(route.controller.currentRouteName) > -1
